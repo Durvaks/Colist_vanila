@@ -1,0 +1,257 @@
+        /* CSS for the to-do list application */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sono', sans-serif;
+            background-image: linear-gradient(rgb(180, 190, 190), rgb(38, 41, 43));
+            min-height: 100vh;
+        }
+
+        main {
+            width: 100vw;
+            margin: 1vh auto;
+            min-width: 400px;
+            max-width: 900px;
+            position: relative;
+        }
+
+        .title {
+            text-align: center;
+            padding: 1em;
+            text-shadow: 3px 2px 3px rgb(202, 192, 231);
+            user-select: none;
+        }
+
+        #list_title{
+            color: rgb(0, 0, 0);
+            font-weight: 600;
+            margin: 30px auto auto;
+            text-align: center;
+            text-transform: capitalize;
+            text-shadow: 1px 2px 2px rgb(110, 110, 110);
+            max-width: 50%;
+            border-top: 1px solid rgb(255, 255, 255);
+            padding: .5em;
+            font-size: 1em;
+        }
+
+        .clear_all{
+            position: absolute;
+            top: 2px;
+            right: 20px;
+            font-size: .7em;
+            transition: all .5s;            
+            border-radius: 5px;
+            padding: .2em;
+        }
+        .clear_all:hover{
+            background-color: rgb(80, 0, 0);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .clear_all:active{
+            background-color: rgb(80, 0, 0);
+            color: white;
+            transform: translateY(1px);
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+        }
+
+        .title span {
+            margin-right: .5em;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        #task-list {
+            list-style: none;
+            padding: 0;
+            width: 80%;
+            margin: 5px auto 0;
+        }
+
+        /*TASK INPUT*/
+        #task {
+            resize: vertical;
+            height: 60px;
+            min-height: 60px;
+            max-height: 200px;
+            width: 70%;
+            min-width: 320px;
+            padding: 1em;
+            margin-right: 1%;
+            border-color: rgb(37, 37, 37);
+            border-radius: 5px;
+            box-shadow: 0 0 .8em rgb(75, 75, 75);
+            background-color: rgba(163, 151, 221, 0.322);
+            transition: background .8s;
+            font-family: 'Sono';
+        }
+
+        #task:focus {
+            background-color: white;
+            border-color: rgb(66, 66, 66);
+            outline: 0;
+        }
+
+        /*EFFECT TO CLICK*/
+        .btn {
+            background: linear-gradient(to right, rgb(34, 52, 65), rgb(25, 29, 90));
+            color: white;
+            width: 100px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all .2s;
+            margin-left: 1%;
+        }
+
+        .btn:hover,
+        #task_btn:hover,
+        .button_li:hover {
+            background: linear-gradient(to right, rgb(105, 139, 170), rgb(46, 55, 168));
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active,
+        #task_btn:active,
+        .button_li:active {
+            transform: translateY(1px);
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+            border-color: rgb(95, 0, 0);
+        }
+
+        /*BUTTON TO SEND TASK TO LIST*/
+        #task_btn {
+            height: 60px;
+            width: 8%;
+            min-width: 30px;
+            background-color: rgb(49, 49, 49);
+            border-radius: 5px;
+            color: white;
+            font-size: .9em;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        #task_btn:active {
+            background-color: rgb(80, 80, 80);
+            color: rgb(3, 70, 31);
+        }        
+
+        /*BUTON - CLEAR LIST*/
+        .clear_list{
+            position: absolute;
+            bottom: -38%;
+            left: 10%;
+        }
+        /*BUTTON - LIST*/
+        .btn_lists{
+            margin: 0 0 .2em 10%;
+            display: flex;
+        }
+
+
+        /*ITEM LIST*/
+        #task-list li {
+            padding: 1%;
+            margin-bottom: 10px;
+            border-left: 3px solid rgb(5, 80, 55);
+            border-top-left-radius: 5px;
+            border-bottom: 1px solid rgb(53, 53, 53);
+            display: flex;
+            align-items: center;
+            flex-flow: row;
+            justify-content: space-between;
+            text-transform: capitalize;
+            background-image: linear-gradient(to right, rgba(80, 80, 1, 0.459), rgba(90, 90, 0, 0.37), transparent);
+            color: rgb(255, 255, 255);
+            font-weight: 300;
+        }
+
+        .description {
+            font-size: clamp(.6em,1vw,.8em);
+            font-style: italic;
+        }
+
+        /*BUTTONS TO ITEM LIST*/
+        .divButtons {
+            display: flex;
+            justify-content: space-between;
+            width: 3em;
+            min-width: 3em;
+            height: 1.2em;
+            margin-left: .5em;
+        }
+
+        .button_li {
+            display: block;
+            text-align: center;
+            cursor: pointer;
+            padding: .1em;
+            width: 100%;
+            user-select: none;
+            border-radius: 5px;
+            color: #2e2e2e;
+            font-size: .8em;
+        }
+        
+
+        .btnRemove { 
+            display: block;
+            text-align: center;
+            border: 1px solid rgb(0, 0, 0);
+            background-color: rgb(83, 0, 0);
+            width: 5px;
+            cursor: pointer;
+            user-select: none;
+            color: rgb(165, 165, 165);
+            font-size: 0;
+            transition: .4s;
+            border-radius: 5px;
+            padding-top: .2em;
+        }
+        
+
+        .btnRemove:hover {
+            width: 40px;
+            font-size: .7em;
+        }
+
+        .btnRemove:active {
+            background-color: rgb(26, 20, 20);
+        }
+
+        #other_lists{ 
+            position: absolute;
+            width: 120px;
+            height: 0;
+            border-radius: 5px;
+            margin-left: 220px;
+            background-color: rgb(19, 6, 68);
+            color: white;
+            overflow: hidden;
+            z-index: 2;
+            font-size: .7em;
+            transition: height 1s ease-out;
+        }
+
+        #other_lists li{
+            user-select: none;
+            padding: .4em;
+            text-transform: capitalize;
+        }
+
+        #other_lists li:hover{
+            cursor: pointer;
+            background-color: #14155c;
+        }

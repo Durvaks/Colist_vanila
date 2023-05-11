@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+    <script src="https://kit.fontawesome.com/6078a00250.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sono&display=swap" rel="stylesheet">
+
+    <title>To List</title>
+</head>
+
+<body>
+    <main>
+        <h1 class="title"><span>CoList</span><i class="fa-solid fa-table-list"></i></h1>
+        <div class="btn_lists">
+            <input class="btn new_list" type="button" value="Add List">
+            <input class="btn lists" type="button" value="Lists">
+            <ul id="other_lists">
+            </ul>
+        </div>
+        <input class="clear_all" type="button" value="Clear All">
+        <form class="form">
+            <textarea name="task" id="task" cols="30" rows="10" placeholder="Next item list"></textarea>
+            <input class="btn clear_list" type="button" value="Clear List">
+            <button type="submit" id="task_btn"><i class="fa-solid fa-pen-to-square"></i></button>
+        </form>
+        <div class="container_list">
+            <h2 id="list_title">Default title</h2>
+            <ul id="task-list">
+            </ul>
+        </div>
+    </main>
+</body>
+
+</html>
