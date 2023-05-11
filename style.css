@@ -39,22 +39,30 @@
             font-size: 1em;
         }
 
-        .clear_all{
+        .top_btn{
             position: absolute;
             top: 2px;
-            right: 20px;
             font-size: .7em;
             transition: all .5s;            
             border-radius: 5px;
             padding: .2em;
         }
-        .clear_all:hover{
+
+        .account_button{
+            left: 20px;
+        }
+
+        .clear_all{
+            right: 20px;
+        }
+
+        .top_btn:hover{
             background-color: rgb(80, 0, 0);
             color: white;
             transform: translateY(-1px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        .clear_all:active{
+        .top_btn:active{
             background-color: rgb(80, 0, 0);
             color: white;
             transform: translateY(1px);

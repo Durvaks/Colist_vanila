@@ -10,7 +10,8 @@ const $DOM_ref = {
   "btn_lists": document.querySelector('.lists'),
   "list_title": document.querySelector('#list_title'),
   "clear_all": document.querySelector('.clear_all'),
-  "menuList": document.querySelector("#other_lists")
+  "menuList": document.querySelector("#other_lists"),
+  "accoutButton": document.querySelector(".account_button")
 }
 const {
   textArea,
@@ -23,8 +24,10 @@ const {
   btn_lists,
   list_title,
   clear_all,
-  menuList
+  menuList,
+  accoutButton
 } = $DOM_ref;
+
 //options get icons to fontsAwesome
 const options = [ 
 "fa-plus",
@@ -43,7 +46,43 @@ const statsColors = {
 "fa-check BTN": "rgb(5, 80, 55)"
 };
 
-let DATA_LIST = JSON.parse(localStorage.getItem('data_list')) || [];
+// setTimeout(()=>{
+//   alert("Aviso! os dados serão salvos na sessão. para não perder suas listas registre e acesse sua conta individual")
+// }, 2000)
+
+const URL = "http://localhost:3333/";
+
+function getData (){  
+  const cookieString = document.cookie;
+  if (cookieString.includes("colist_id")) {
+    const cookies = cookieString.split('; ');
+    const colistPassCookie = cookies.find(cookie => cookie.startsWith('colist_id='));
+    if(colistPassCookie){
+      const colistPass = colistPassCookie.split('=')[1];      
+      const checkAuth = async () => {
+        try{
+          
+          const response = await fetch(`${URL}user/authenticate/${colistPass}`)
+          const data = await response.json();
+          if(data.Logged){
+            //retorna os dados do banco de dados
+          }else{
+            return JSON.parse(localStorage.getItem('data_list')) || []
+          }
+        }catch(error){
+          console.log(error)
+        }
+      }
+      checkAuth();
+    }else{
+      return JSON.parse(localStorage.getItem('data_list')) || [];
+    }
+  }else{
+    return JSON.parse(localStorage.getItem('data_list')) || [];
+  }
+}
+
+let DATA_LIST = getData();
 
 //#### Funtions ####
 
