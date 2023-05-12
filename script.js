@@ -49,9 +49,9 @@ const statsColors = {
 // }, 2000)
 
 //Rotas Back-end
-const URL = "http://localhost:3333/";
-const link_to_register = "http://localhost:3333/user/new";
-const link_to_login = "http://localhost:3333/user/login";
+const URL = "http://18.230.184.131:3333/";
+const link_to_register = "account/new";
+const link_to_login = "account/login";
 
 
 
@@ -294,7 +294,7 @@ btn_register.addEventListener("click", (event) => {
     input_to_remove.remove();
     btn_register.value = "Register";
     document.querySelector('#submit_button').textContent = "Login";
-    login_form.setAttribute('action',link_to_login)
+    login_form.setAttribute('action','action',`${URL}${link_to_login}`)
 
 
   } else {// aqui eu abro a tela de registro
@@ -314,7 +314,7 @@ btn_register.addEventListener("click", (event) => {
 
     form_destiny.appendChild(label);
     form_destiny.appendChild(input);
-    login_form.setAttribute('action',link_to_register)
+    login_form.setAttribute('action',`${URL}${link_to_register}`)
     document.querySelector('#submit_button').textContent = "Register";
 
   }
