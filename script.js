@@ -1,6 +1,6 @@
 // Get references to the form and list elements
 const $DOM_ref = {
-  "textArea":document.querySelector("#task"),
+  "textArea": document.querySelector("#task"),
   "form": document.querySelector(".form"),
   "taskList": document.querySelector('#task-list'),
   "btn_clearCache": document.querySelector('.clear_list'),
@@ -10,8 +10,7 @@ const $DOM_ref = {
   "btn_lists": document.querySelector('.lists'),
   "list_title": document.querySelector('#list_title'),
   "clear_all": document.querySelector('.clear_all'),
-  "menuList": document.querySelector("#other_lists"),
-  "accoutButton": document.querySelector(".account_button")
+  "menuList": document.querySelector("#other_lists")
 }
 const {
   textArea,
@@ -24,60 +23,64 @@ const {
   btn_lists,
   list_title,
   clear_all,
-  menuList,
-  accoutButton
+  menuList
 } = $DOM_ref;
 
 //options get icons to fontsAwesome
-const options = [ 
-"fa-plus",
-"fa-hourglass-half",
-"fa-check"
+const options = [
+  "fa-plus",
+  "fa-hourglass-half",
+  "fa-check"
 ];
 
 const statsColors = {
-"fa-plus": "transparent",
-"fa-plus BTN": "white",
+  "fa-plus": "transparent",
+  "fa-plus BTN": "white",
 
-"fa-hourglass-half": "transparent",
-"fa-hourglass-half BTN": "#777007",
+  "fa-hourglass-half": "transparent",
+  "fa-hourglass-half BTN": "#777007",
 
-"fa-check": "transparent",
-"fa-check BTN": "rgb(5, 80, 55)"
+  "fa-check": "transparent",
+  "fa-check BTN": "rgb(5, 80, 55)"
 };
 
 // setTimeout(()=>{
 //   alert("Aviso! os dados serão salvos na sessão. para não perder suas listas registre e acesse sua conta individual")
 // }, 2000)
 
+//Rotas Back-end
 const URL = "http://localhost:3333/";
+const link_to_register = "http://localhost:3333/user/new";
+const link_to_login = "http://localhost:3333/user/login";
 
-function getData (){  
+
+
+function getData() {
   const cookieString = document.cookie;
   if (cookieString.includes("colist_id")) {
     const cookies = cookieString.split('; ');
     const colistPassCookie = cookies.find(cookie => cookie.startsWith('colist_id='));
-    if(colistPassCookie){
-      const colistPass = colistPassCookie.split('=')[1];      
+    if (colistPassCookie) {
+      const colistPass = colistPassCookie.split('=')[1];
       const checkAuth = async () => {
-        try{
-          
+        try {
+
           const response = await fetch(`${URL}user/authenticate/${colistPass}`)
           const data = await response.json();
-          if(data.Logged){
+          if (data.Logged) {
             //retorna os dados do banco de dados
-          }else{
+          } else {
             return JSON.parse(localStorage.getItem('data_list')) || []
           }
-        }catch(error){
+        } catch (error) {
           console.log(error)
         }
       }
       checkAuth();
-    }else{
+    } else {
       return JSON.parse(localStorage.getItem('data_list')) || [];
     }
-  }else{
+  } else {
     return JSON.parse(localStorage.getItem('data_list')) || [];
   }
 }
@@ -170,8 +173,8 @@ const createLi = (element) => {
   btnRemove.addEventListener("click", (event) => {
     const verify = confirm("want to remove this item?");
     if (verify) {
-      let currentList = DATA_LIST[DATA_LIST.findIndex(list=>list.stats == "opened")].listItem;
-      currentList.splice(currentList.indexOf(element),1)
+      let currentList = DATA_LIST[DATA_LIST.findIndex(list => list.stats == "opened")].listItem;
+      currentList.splice(currentList.indexOf(element), 1)
       updateAll();
     } else {
       alert("Item has not been removed");
@@ -244,10 +247,10 @@ form.addEventListener('submit', event => {
   const thisTime = new Date();
   if (DATA_LIST.length == 0) {
     newList = prompt("Insert a name of the new list");
-    if(newList){
+    if (newList) {
       createNewList(newList);
       currentList = 0;
-    }else{
+    } else {
       alert("list name cannot be empty");
     }
   }
@@ -266,5 +269,55 @@ document.querySelector("body").addEventListener("click", (event) => {
     menuList.style.height = '0'
   }
 });
+
+/*functions reference of login */
+const loginScreen = document.querySelector('#loginScreen');
+
+const accoutButton = document.querySelector(".account_button")
+accoutButton.addEventListener("click", (event) => {
+  loginScreen.classList.remove('loginScreen-hidden');
+})
+
+const btn_return_login = document.querySelector('.return-button');
+btn_return_login.addEventListener("click", (event) => {
+  loginScreen.classList.add('loginScreen-hidden');  
+})
+
+const btn_register = document.querySelector('#register-button');
+const login_form = document.querySelector('#login-form');
+
+btn_register.addEventListener("click", (event) => {
+  if (btn_register.value == "Cancel") {// aqui eu abro a tela de login
+    const label_to_remove = document.querySelector('.label-to-register');
+    const input_to_remove = document.querySelector('.input-to-register');
+    label_to_remove.remove();
+    input_to_remove.remove();
+    btn_register.value = "Register";
+    document.querySelector('#submit_button').textContent = "Login";
+    login_form.setAttribute('action',link_to_login)
+
+
+  } else {// aqui eu abro a tela de registro
+    btn_register.value = "Cancel"
+    const label = document.createElement('label');
+    label.setAttribute('for', 'email');
+    label.classList.add('label-to-register');
+    label.textContent = 'E-mail';
+
+    const input = document.createElement('input');
+    input.setAttribute('type', 'email');
+    input.setAttribute('id', 'email');
+    input.setAttribute('name', 'email');
+    input.classList.add('input-to-register');
+
+    const form_destiny = document.querySelector('.loginScreen-form-top-rigth');
+
+    form_destiny.appendChild(label);
+    form_destiny.appendChild(input);
+    login_form.setAttribute('action',link_to_register)
+    document.querySelector('#submit_button').textContent = "Register";
+
+  }
+})
 
 updateAll();

@@ -16,6 +16,31 @@
 </head>
 
 <body>
+    <div id="loginScreen" class="loginScreen-hidden">
+        <input class="return-button" type="button" value="Return">
+        <div class="loginScreen-centralize">
+            <form id="login-form" action="" class="loginScreen-form" method="post">
+                <div class="loginScreen-form-top">
+                    <div class="loginScreen-form-top-left">
+                        <h1>COLIST</h1>
+                    </div>
+                    <div class="loginScreen-form-top-rigth">
+                        <label for="user">User</label>
+                        <input type="text" name="user" id="user">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                </div>
+                <div class="loginScreen-form-bot">
+                    <button id="submit_button" type="submit">Login</button>
+                </div>
+            </form>
+            <div class="loginScreen-other-options">
+                <input type="button" value="Lost my password">
+                <input id="register-button" type="button" value="Register">
+            </div>
+        </div>
+    </div>
     <main>
         <h1 class="title"><span>CoList</span><i class="fa-solid fa-table-list"></i></h1>
         <div class="btn_lists">

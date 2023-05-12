@@ -4,8 +4,9 @@ require('./Config/Database');
 //#### - Express Config
 const express = require('express');
 const App = express();
-App.listen(3333,()=>{
-    console.log("Servidor aberto");
+const PORT = 3333
+App.listen(PORT,()=>{
+    console.log("Servidor aberto na porta: "+PORT);
 })
 
 const methodOverride = require('method-override');

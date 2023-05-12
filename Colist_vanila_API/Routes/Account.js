@@ -14,6 +14,11 @@ AccountRouter.post("/new", async (req, res)=>{
     }
 })
 
+//#### Login Account
+AccountRouter.post("/login", async (req, res)=>{
+    res.send("em desenvolvimento");
+})
+
 //#### Authenticate Account
 AccountRouter.get("/authenticate/:id", async (require, response) => {
     const idUser = require.params.id;
@@ -29,6 +34,7 @@ AccountRouter.get("/authenticate/:id", async (require, response) => {
         response.json({Logged: false})
     }
 })
+
 
 //#### Return Accounts
 AccountRouter.get("/all", async (req, res)=>{
