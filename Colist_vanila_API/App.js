@@ -11,11 +11,13 @@ App.listen(PORT,()=>{
 
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 App.use(methodOverride('_method', {methods:['POST', 'GET']}));
 App.use(express.json());
 App.use(express.urlencoded({extended: true}));
 App.use(cookieParser());
+App.use(cors());
 
 //#### - Express Access
 const AccountRouter = require('./Routes/Account');

@@ -49,43 +49,65 @@ const statsColors = {
 // }, 2000)
 
 //Rotas Back-end
-const URL = "http://18.230.184.131:3333/";
+const URL = "http://localhost:3333/"; // "http://18.230.184.131:3333/"
 const link_to_register = "account/new";
 const link_to_login = "account/login";
 
-
-
-function getData() {
+function findIdOnCookie() {
+  const status = {
+    find: false,
+    id: null
+  }
   const cookieString = document.cookie;
   if (cookieString.includes("colist_id")) {
     const cookies = cookieString.split('; ');
     const colistPassCookie = cookies.find(cookie => cookie.startsWith('colist_id='));
     if (colistPassCookie) {
       const colistPass = colistPassCookie.split('=')[1];
-      const checkAuth = async () => {
-        try {
-
-          const response = await fetch(`${URL}user/authenticate/${colistPass}`)
-          const data = await response.json();
-          if (data.Logged) {
-            //retorna os dados do banco de dados
-          } else {
-            return JSON.parse(localStorage.getItem('data_list')) || []
-          }
-        } catch (error) {
-          console.log(error)
-        }
+      if (colistPass !== '') {
+        status.find = true;
+        status.id = colistPass;
       }
-      checkAuth();
-    } else {
-      return JSON.parse(localStorage.getItem('data_list')) || [];
+    }
+  }
+  return status
+}
+
+async function getData() {
+  const cookieVerification = findIdOnCookie();
+  if (cookieVerification.find) {
+    try {
+      const response = await fetch(`${URL}account/authenticate/${cookieVerification.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      const data = await response.json();
+      if (data.Logged) {
+        return data.data_list !== null ? JSON.parse(data.data_list) : []
+      } else {
+        return JSON.parse(localStorage.getItem('data_list')) || []
+      }
+    } catch (error) {
+      console.log(error)
+      return []
     }
   } else {
-    return JSON.parse(localStorage.getItem('data_list')) || [];
+    return JSON.parse(localStorage.getItem('data_list')) || []
   }
 }
 
-let DATA_LIST = getData();
+let DATA_LIST;
+
+getData()
+  .then((data) => {
+    DATA_LIST = data;
+  }).catch((err) => {
+    console.log(err);
+    DATA_LIST = []
+  })
+
 
 //#### Funtions ####
 
@@ -107,10 +129,34 @@ const renderData = (finded) => {
 }
 // função para atualizar todas as bases após qualquer alteração
 const updateAll = () => {
-  localStorage.setItem("data_list", JSON.stringify(DATA_LIST));
-  const toRender = DATA_LIST.find(elem => elem.stats == 'opened');
-  loadMenu();
-  renderData(toRender);
+  const cookieVerification = findIdOnCookie();
+  if (cookieVerification.find) {    
+    const update = async () => {
+      try {
+        await fetch(`${URL}account/change/`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: cookieVerification.id,
+            data: JSON.stringify(DATA_LIST)
+          })
+        });
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    update();
+  } else {
+    console.log('setando o localhost');
+    localStorage.setItem("data_list", JSON.stringify(DATA_LIST));
+  }
+  if(typeof(DATA_LIST) !== 'undefined'){
+    const toRender = DATA_LIST.find(elem => elem.stats == 'opened');
+    renderData(toRender);    
+    loadMenu();
+  }
 }
 // função para criar nova lista
 const createNewList = (newListName) => {
@@ -280,7 +326,7 @@ accoutButton.addEventListener("click", (event) => {
 
 const btn_return_login = document.querySelector('.return-button');
 btn_return_login.addEventListener("click", (event) => {
-  loginScreen.classList.add('loginScreen-hidden');  
+  loginScreen.classList.add('loginScreen-hidden');
 })
 
 const btn_register = document.querySelector('#register-button');
@@ -294,7 +340,7 @@ btn_register.addEventListener("click", (event) => {
     input_to_remove.remove();
     btn_register.value = "Register";
     document.querySelector('#submit_button').textContent = "Login";
-    login_form.setAttribute('action','action',`${URL}${link_to_login}`)
+    login_form.setAttribute('action', 'action', `${URL}${link_to_login}`)
 
 
   } else {// aqui eu abro a tela de registro
@@ -314,10 +360,35 @@ btn_register.addEventListener("click", (event) => {
 
     form_destiny.appendChild(label);
     form_destiny.appendChild(input);
-    login_form.setAttribute('action',`${URL}${link_to_register}`)
+    login_form.setAttribute('action', `${URL}${link_to_register}`)
     document.querySelector('#submit_button').textContent = "Register";
 
   }
 })
+
+const form_to_login = document.getElementById("login-form");
+form_to_login.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const actionLink = form_to_login.getAttribute('action');
+
+  const user = document.getElementById("user").value;
+  const password = document.getElementById("password").value;
+  const response = await fetch(actionLink, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user, password }),
+  });
+  if (response.ok) {
+    const res = await response.json();
+    document.cookie = `colist_id=${res.login_access}`;
+    window.location.reload();
+  } else {
+    const message = await response.json();
+    alert(message.message);
+  }
+});
 
 updateAll();
